@@ -1,12 +1,18 @@
 from fastapi import FastAPI
+from typing import Optional
+
 import pydantic
 
 app = FastAPI()
 
 
 @app.get('/')
-def index():
-  return {'data': 'Blog list'}
+def index(limit=10, published: bool = True, sort: Optional[str] = None):
+  # get only {limit} blogs
+  if published:
+    return {'data': f'{limit} published blogs from de DataBase'}
+  else:
+    return {'data': f'{limit} blogs from de DataBase'}
 
 
 @app.get('/about')
@@ -29,6 +35,6 @@ def show(id: int):
 
 
 @app.get('/blog/{id}/comments')
-def comments(id: int):
+def comments(id: int, limit=10):
   # fetch comments of blog with id = id
   return {'data': {'1', '2'}}
