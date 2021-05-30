@@ -1,0 +1,12 @@
+*.pyc
+poetry.lock
+
+# Unit Test
+tests/
+test.py
+test_*.*
+
+.venv
+
+# IDE
+.vscode
