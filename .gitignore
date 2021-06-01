@@ -10,3 +10,5 @@ test_*.*
 
 # IDE
 .vscode
+
+*.db
