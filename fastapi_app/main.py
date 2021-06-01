@@ -29,7 +29,7 @@ def create(request: schemas.Blog, db: Session = Depends(get_db)):
 
 
 @app.delete('/blog/{id}', status_code=status.HTTP_204_NO_CONTENT)
-def destroy(id, db: Session = Depends(get_db)):
+def destroy(id: int, db: Session = Depends(get_db)):
   blog = db.query(models.Blog).filter(models.Blog.id == id)
   if not blog.first():
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
@@ -40,7 +40,7 @@ def destroy(id, db: Session = Depends(get_db)):
 
 
 @app.put('/blog/{id}', status_code=status.HTTP_202_ACCEPTED)
-def update(id, request: schemas.Blog, db: Session = Depends(get_db)):
+def update(id: int, request: schemas.Blog, db: Session = Depends(get_db)):
   blog = db.query(models.Blog).filter(models.Blog.id == id).update(
       {request.title, request.body})
   if not blog.first():
@@ -57,7 +57,7 @@ def all(db: Session = Depends(get_db)):
 
 
 @app.get('/blog/{id}', status_code=200, response_model=schemas.ShowBlog)
-def show(id, response: Response, db: Session = Depends(get_db)):
+def show(id: int, response: Response, db: Session = Depends(get_db)):
   blog = db.query(models.Blog).filter(models.Blog.id == id).first()
   if not blog:
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
@@ -66,3 +66,13 @@ def show(id, response: Response, db: Session = Depends(get_db)):
     # return {'detail': f'Blog with the id {id} is not available.'}
 
   return blog
+
+
+@app.post('/user')
+def create_user(request: schemas.User, db: Session = Depends(get_db)):
+  new_user = models.User(
+      name=request.name, email=request.email, password=request.password)
+  db.add(new_user)
+  db.commit()
+  db.refresh(new_user)
+  return request
