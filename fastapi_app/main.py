@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from . import models
-from .database import engine
-from .routers import blog, user, authentication
+from fastapi_app import models
+from fastapi_app.database import engine
+from fastapi_app.routers import blog, user, authentication
 
 app = FastAPI()
 

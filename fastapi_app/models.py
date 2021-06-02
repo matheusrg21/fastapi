@@ -1,6 +1,6 @@
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import ForeignKey
-from .database import Base
+from fastapi_app.database import Base
 from sqlalchemy import Column, Integer, String
 
 
@@ -21,4 +21,4 @@ class User(Base):
   email = Column(String)
   password = Column(String)
 
-  blog = relationship("Blog", back_populates="creator")
+  blogs = relationship("Blog", back_populates="creator")
